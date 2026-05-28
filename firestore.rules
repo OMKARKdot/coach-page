@@ -1,0 +1,90 @@
+{
+  "rules_version": "2",
+  "service cloud.firestore": {
+    match /databases/{database}/documents {
+      function isTenant(tenantId) {
+        return request.auth != null &&
+                 request.auth.uid == tenantId;
+      }
+
+      function isSuperAdmin() {
+        return request.auth != null &&
+                 request.auth.token.role == 'superadmin';
+      }
+
+      // ═══ ClinicPage Tenants (existing rules) ═══
+      match /clinicpage_tenants/{tenantId} {
+        allow read: if true;
+        allow write: if isTenant(tenantId) || isSuperAdmin();
+
+        match /{subCollection}/{docId} {
+          allow read: if true;
+          allow create: if subCollection == 'appointments' ? true : (isTenant(tenantId) || isSuperAdmin());
+          allow update, delete: if isTenant(tenantId) || isSuperAdmin();
+        }
+      }
+
+      // ═══ CoachPage Tenants ═══
+      match /coachpage_tenants/{tenantId} {
+        allow read: if true;
+        allow write: if isTenant(tenantId) || isSuperAdmin();
+
+        match /profile/{doc} {
+          allow read: if true;
+          allow write: if isTenant(tenantId) || isSuperAdmin();
+        }
+
+        match /batches/{batchId} {
+          allow read: if true;
+          allow write: if isTenant(tenantId) || isSuperAdmin();
+        }
+
+        match /subjects/{subjectId} {
+          allow read: if true;
+          allow write: if isTenant(tenantId) || isSuperAdmin();
+        }
+
+        match /faculty/{facultyId} {
+          allow read: if true;
+          allow write: if isTenant(tenantId) || isSuperAdmin();
+        }
+
+        match /results/{resultId} {
+          allow read: if true;
+          allow write: if isTenant(tenantId) || isSuperAdmin();
+        }
+
+        match /fees/{feeId} {
+          allow read: if true;
+          allow write: if isTenant(tenantId) || isSuperAdmin();
+        }
+
+        match /notices/{noticeId} {
+          allow read: if true;
+          allow write: if isTenant(tenantId) || isSuperAdmin();
+        }
+
+        // Enquiries — anyone can create, only tenant can read/manage
+        match /enquiries/{enquiryId} {
+          allow create: if true;
+          allow read, update, delete: if isTenant(tenantId) || isSuperAdmin();
+        }
+
+        match /testimonials/{testimonialId} {
+          allow read: if true;
+          allow write: if isTenant(tenantId) || isSuperAdmin();
+        }
+
+        match /gallery/{imageId} {
+          allow read: if true;
+          allow write: if isTenant(tenantId) || isSuperAdmin();
+        }
+
+        match /youtube_videos/{doc} {
+          allow read: if true;
+          allow write: if isTenant(tenantId) || isSuperAdmin();
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,41 @@
+﻿rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isTenant(tenantId) {
+      return request.auth != null && (request.auth.uid == tenantId || request.auth.token.tenantId == tenantId);
+    }
+    function isSuperAdmin() {
+      return request.auth != null && request.auth.token.role == 'superadmin';
+    }
+
+    match /coachpage_tenants/{tenantId} {
+      allow read: if true;
+      allow write: if isTenant(tenantId) || isSuperAdmin();
+      
+      match /profile/{doc} {
+        allow read: if true;
+        allow write: if isTenant(tenantId) || isSuperAdmin();
+      }
+      match /batches/{batchId} {
+        allow read: if true;
+        allow write: if isTenant(tenantId) || isSuperAdmin();
+      }
+      match /enquiries/{enquiryId} {
+        allow create: if true;
+        allow read, update, delete: if isTenant(tenantId) || isSuperAdmin();
+      }
+      match /results/{resultId} {
+        allow read: if true;
+        allow write: if isTenant(tenantId) || isSuperAdmin();
+      }
+      match /faculty/{facultyId} {
+        allow read: if true;
+        allow write: if isTenant(tenantId) || isSuperAdmin();
+      }
+      match /notices/{noticeId} {
+        allow read: if true;
+        allow write: if isTenant(tenantId) || isSuperAdmin();
+      }
+    }
+  }
+}
