@@ -15,7 +15,8 @@ import YouTubeSection from "@/components/coach-public/YouTubeSection";
 import GallerySection from "@/components/coach-public/GallerySection";
 import EnquiryForm from "@/components/coach-public/EnquiryForm";
 import ContactSection from "@/components/coach-public/ContactSection";
-import HamburgerNav from "@/components/coach-public/HamburgerNav";
+import NoticesTicker from "@/components/coach-public/NoticesTicker";
+import TabsContainer from "@/components/coach-public/TabsContainer";
 import { notFound } from "next/navigation";
 
 // ISR: Revalidate pages every 1 hour (admission season traffic optimization)
@@ -56,18 +57,108 @@ const demoBatches = [
     status: "admissions_open",
     highlight: true,
     order: 1
-  }
+  },
+  {
+    id: "demo-batch-2",
+    batch_name: "JEE Advanced 2026 — Evening Batch",
+    course_type: "JEE",
+    standard: "11th + 12th Combined",
+    subjects: ["Physics", "Chemistry", "Mathematics"],
+    start_date: "2026-06-20",
+    timing: "4:00 PM — 7:00 PM",
+    total_seats: 35,
+    seats_filled: 20,
+    seats_available: 15,
+    status: "admissions_open",
+    highlight: true,
+    order: 2
+  },
+  {
+    id: "demo-batch-3",
+    batch_name: "MHT-CET 2026 — Weekend Batch",
+    course_type: "MHT-CET",
+    standard: "12th",
+    subjects: ["Physics", "Chemistry", "Mathematics"],
+    start_date: "2026-07-01",
+    timing: "8:00 AM — 2:00 PM",
+    total_seats: 50,
+    seats_filled: 15,
+    seats_available: 35,
+    status: "admissions_open",
+    highlight: false,
+    order: 3
+  },
+  {
+    id: "demo-batch-4",
+    batch_name: "NEET Dropper 2026 — Intensive",
+    course_type: "NEET",
+    standard: "Dropper",
+    subjects: ["Physics", "Chemistry", "Biology"],
+    start_date: "2026-08-01",
+    timing: "7:00 AM — 12:00 PM",
+    total_seats: 30,
+    seats_filled: 22,
+    seats_available: 8,
+    status: "closing_soon",
+    highlight: true,
+    order: 4
+  },
 ];
 
-const tabs = [
-  { label: "Home", slug: "" },
-  { label: "Batches", slug: "batches" },
-  { label: "Results", slug: "results" },
-  { label: "Faculty", slug: "faculty" },
-  { label: "Fees", slug: "fees" },
-  { label: "Testimonials", slug: "testimonials" },
-  { label: "Gallery", slug: "gallery" },
-  { label: "Contact", slug: "contact" },
+const demoResults = [
+  { id: "demo-result-1", student_name: "Ravi Deshmukh", rank: "AIR 142", exam: "NEET 2024", score: 720, percentile: 99.98, highlight: true },
+  { id: "demo-result-2", student_name: "Priya Sharma", rank: "AIR 285", exam: "JEE Advanced 2024", score: 345, percentile: 98.7, highlight: true },
+  { id: "demo-result-3", student_name: "Amit Patil", rank: "99.8 %ile", exam: "MHT-CET 2024", score: 199, percentile: 99.8, highlight: true },
+  { id: "demo-result-4", student_name: "Sneha Joshi", rank: "AIR 450", exam: "NEET 2024", score: 695, percentile: 99.5, highlight: true },
+  { id: "demo-result-5", student_name: "Rohit Kale", rank: "AIR 189", exam: "JEE Advanced 2023", score: 332, percentile: 99.2, highlight: false },
+  { id: "demo-result-6", student_name: "Kavya Deshmukh", rank: "99.6 %ile", exam: "MHT-CET 2023", score: 195, percentile: 99.6, highlight: false },
+];
+
+const demoFaculty = [
+  { id: "demo-fac-1", name: "Dr. Suresh Kulkarni", subject: "Physics", qualification: "Ph.D. (Physics), IIT Bombay", experience: "18", specialties: ["Electrodynamics", "Mechanics"] },
+  { id: "demo-fac-2", name: "Prof. Meera Joshi", subject: "Chemistry", qualification: "M.Sc. (Chemistry), Gold Medalist", experience: "12", specialties: ["Organic Chemistry", "Physical Chemistry"] },
+  { id: "demo-fac-3", name: "Mr. Aniket Deshmukh", subject: "Mathematics", qualification: "B.Tech (IIT Delhi)", experience: "8", specialties: ["Calculus", "Algebra"] },
+  { id: "demo-fac-4", name: "Dr. Pallavi Patil", subject: "Biology", qualification: "MBBS, M.D.", experience: "10", specialties: ["Human Physiology", "Genetics"] },
+  { id: "demo-fac-5", name: "Mr. Vikram Jadhav", subject: "Physics", qualification: "M.Sc. (Physics), University Topper", experience: "6", specialties: ["Optics", "Modern Physics"] },
+  { id: "demo-fac-6", name: "Mrs. Sunita Gupta", subject: "Chemistry", qualification: "Ph.D. (Chemistry), NCL Pune", experience: "15", specialties: ["Inorganic Chemistry", "Thermodynamics"] },
+  { id: "demo-fac-7", name: "Mr. Rajesh More", subject: "Mathematics", qualification: "M.Sc. (Mathematics)", experience: "9", specialties: ["Coordinate Geometry", "Trigonometry"] },
+  { id: "demo-fac-8", name: "Dr. Aishwarya Kale", subject: "Biology", qualification: "Ph.D. (Zoology)", experience: "7", specialties: ["Ecology", "Cell Biology"] },
+];
+
+const demoFees = [
+  { id: "demo-fee-1", course_name: "NEET Comprehensive", amount: 125000, fee_type: "year", show_on_website: true, includes: ["All subjects included", "Weekly mock tests", "Doubt sessions", "Study material", "Personal mentoring"], total_programme_fee: 250000, scholarship_available: true, scholarship_note: "Up to 25% scholarship for NEET top 5000 rankers" },
+  { id: "demo-fee-2", course_name: "JEE Advanced", amount: 110000, fee_type: "year", show_on_website: true, includes: ["Physics, Chemistry, Maths", "Weekly mock tests", "Doubt sessions", "Study material"], total_programme_fee: 220000, scholarship_available: false, scholarship_note: "" },
+  { id: "demo-fee-3", course_name: "MHT-CET Crash", amount: 45000, fee_type: "one-time", show_on_website: true, includes: ["Intensive revision", "Daily practice tests", "Topic-wise quizzes", "Study material"], total_programme_fee: 45000, scholarship_available: false, scholarship_note: "" },
+  { id: "demo-fee-4", course_name: "NEET Dropper", amount: 85000, fee_type: "year", show_on_website: true, includes: ["Complete syllabus coverage", "Daily tests", "Personal mentoring", "Study material"], total_programme_fee: 85000, scholarship_available: true, scholarship_note: "Merit-based scholarship for previous year NEET scorers" },
+  { id: "demo-fee-5", course_name: "Foundation (9-10)", amount: 35000, fee_type: "year", show_on_website: true, includes: ["Maths & Science", "Concept building", "Weekly assessments", "Study material"], total_programme_fee: 35000, scholarship_available: false, scholarship_note: "" },
+  { id: "demo-fee-6", course_name: "JEE Dropper", amount: 75000, fee_type: "year", show_on_website: true, includes: ["Full syllabus coverage", "Mock test series", "Doubt sessions", "Study material"], total_programme_fee: 75000, scholarship_available: false, scholarship_note: "" },
+];
+
+const demoTestimonials = [
+  { id: "demo-test-1", student_name: "Rajesh Pawar", text: "The coaching here transformed my preparation. The faculty is incredibly supportive and the study material is top-notch. I secured AIR 142 in NEET 2024!", rating: 5, standard: "NEET 2024", published: true },
+  { id: "demo-test-2", student_name: "Ananya Gupta", text: "Best decision I ever made! The structured batch system and regular mock tests helped me crack JEE Advanced with a good rank. Now at IIT Bombay.", rating: 5, standard: "JEE Advanced 2024", published: true },
+  { id: "demo-test-3", student_name: "Soham Kulkarni", text: "Excellent coaching institute with experienced teachers. The doubt sessions and personalized attention helped me improve my weak areas significantly.", rating: 5, standard: "MHT-CET 2024", published: true },
+  { id: "demo-test-4", student_name: "Neha Jadhav", text: "I joined the crash course and was amazed by the quality of teaching. The daily practice tests were extremely helpful for my preparation.", rating: 5, standard: "NEET 2024", published: true },
+  { id: "demo-test-5", student_name: "Aditya More", text: "The faculty here genuinely cares about each student. They went above and beyond to help me understand complex concepts. Grateful for this institute.", rating: 5, standard: "JEE Advanced 2023", published: true },
+  { id: "demo-test-6", student_name: "Pooja Deshmukh", text: "A fantastic learning environment with great infrastructure. The weekend batch was perfect for my schedule and the results speak for themselves.", rating: 4, standard: "MHT-CET 2023", published: true },
+];
+
+const demoGallery = [
+  { id: "demo-gal-1", image_url: "https://images.unsplash.com/photo-1523050853063-bd80e295ce7f?auto=format&fit=crop&q=80&w=600&h=400", caption: "Main Campus Building", category: "campus" },
+  { id: "demo-gal-2", image_url: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80&w=600&h=400", caption: "Smart Classroom", category: "classroom" },
+  { id: "demo-gal-3", image_url: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=600&h=400", caption: "Well-stocked Library", category: "library" },
+  { id: "demo-gal-4", image_url: "https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&q=80&w=600&h=400", caption: "Dedicated Study Hall", category: "study" },
+  { id: "demo-gal-5", image_url: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&q=80&w=600&h=400", caption: "State-of-the-art Science Lab", category: "lab" },
+  { id: "demo-gal-6", image_url: "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&fit=crop&q=80&w=600&h=400", caption: "Annual Award Ceremony", category: "event" },
+  { id: "demo-gal-7", image_url: "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&q=80&w=600&h=400", caption: "Computer Lab", category: "lab" },
+  { id: "demo-gal-8", image_url: "https://images.unsplash.com/photo-1529543544282-ea994407a271?auto=format&fit=crop&q=80&w=600&h=400", caption: "Annual Sports Day", category: "event" },
+  { id: "demo-gal-9", image_url: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=600&h=400", caption: "Tech Workshop", category: "event" },
+];
+
+const demoNotices = [
+  { id: "demo-notice-1", title: "Admissions Open for NEET 2026 Batch — Limited Seats Available!", show_on_website: true, type: "admission", urgency: "high" },
+  { id: "demo-notice-2", title: "Free Demo Class on Sunday — Register Now!", show_on_website: true, type: "admission", urgency: "high" },
+  { id: "demo-notice-3", title: "MHT-CET 2026 Crash Course Starting July 1st", show_on_website: true, type: "general", urgency: "medium" },
 ];
 
 export default async function PublicPage({ params }: { params: { slug: string } }) {
@@ -86,29 +177,33 @@ export default async function PublicPage({ params }: { params: { slug: string } 
 
     const profile = demoProfile;
     const batches = demoBatches;
-    const results: any[] = [];
-    const faculty: any[] = [];
-    const notices: any[] = [];
-    const testimonials: any[] = [];
-    const gallery: any[] = [];
-    const fees: any[] = [];
+    const results = demoResults;
+    const faculty = demoFaculty;
+    const notices = demoNotices;
+    const testimonials = demoTestimonials;
+    const gallery = demoGallery;
+    const fees = demoFees;
     const tenantId = tenant!.id;
 
     return (
-      <>
-        <HamburgerNav tabs={tabs} slug={params.slug} />
-        <HeroSection profile={profile} />
-        <AboutSection profile={profile} />
-        <BatchesSection batches={batches} />
-        <ResultsSection results={results} />
-        <FacultySection faculty={faculty} />
-        <FeeSection fees={fees} />
-        <YouTubeSection youtubeVideos={[]} />
-        <TestimonialsSection testimonials={testimonials} />
-        <GallerySection images={gallery} />
-        <EnquiryForm tenantId={tenantId} batches={batches} />
-        <ContactSection profile={profile} />
-      </>
+      <TabsContainer
+        home={
+          <>
+            <HeroSection profile={profile} />
+            <NoticesTicker notices={notices} />
+            <AboutSection profile={profile} />
+            <YouTubeSection youtubeVideos={[]} />
+            <EnquiryForm tenantId={tenantId} batches={batches} />
+          </>
+        }
+        batches={<BatchesSection batches={batches} />}
+        results={<ResultsSection results={results} />}
+        faculty={<FacultySection faculty={faculty} />}
+        fees={<FeeSection fees={fees} />}
+        testimonials={<TestimonialsSection testimonials={testimonials} />}
+        gallery={<GallerySection images={gallery} />}
+        contact={<ContactSection profile={profile} />}
+      />
     );
   }
 
@@ -139,18 +234,23 @@ export default async function PublicPage({ params }: { params: { slug: string } 
   ]);
 
   return (
-    <>
-      <HeroSection profile={profile} />
-      <AboutSection profile={profile} />
-      <BatchesSection batches={batches} />
-      <ResultsSection results={results} />
-      <FacultySection faculty={faculty} />
-      <FeeSection fees={fees} />
-      <YouTubeSection youtubeVideos={youtubeVideos} />
-      <TestimonialsSection testimonials={testimonials} />
-      <GallerySection images={gallery} />
-      <EnquiryForm tenantId={tenant.id} batches={batches} />
-      <ContactSection profile={profile} />
-    </>
+    <TabsContainer
+      home={
+        <>
+          <HeroSection profile={profile} />
+          <NoticesTicker notices={notices} />
+          <AboutSection profile={profile} />
+          <YouTubeSection youtubeVideos={youtubeVideos} />
+          <EnquiryForm tenantId={tenant.id} batches={batches} />
+        </>
+      }
+      batches={<BatchesSection batches={batches} />}
+      results={<ResultsSection results={results} />}
+      faculty={<FacultySection faculty={faculty} />}
+      fees={<FeeSection fees={fees} />}
+      testimonials={<TestimonialsSection testimonials={testimonials} />}
+      gallery={<GallerySection images={gallery} />}
+      contact={<ContactSection profile={profile} />}
+    />
   );
 }

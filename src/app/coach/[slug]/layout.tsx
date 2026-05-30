@@ -2,6 +2,7 @@
 import { notFound } from "next/navigation";
 import Navbar from "@/components/coach-public/Navbar";
 import Footer from "@/components/coach-public/Footer";
+import { TabProvider } from "@/lib/tab-context";
 import Script from "next/script";
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
@@ -113,9 +114,11 @@ export default async function PublicLayout({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Navbar profile={profile} slug={params?.slug || ""} />
-      <main>{children}</main>
-      <Footer profile={profile} />
+      <TabProvider>
+        <Navbar profile={profile} slug={params?.slug || ""} />
+        <main>{children}</main>
+        <Footer profile={profile} />
+      </TabProvider>
     </div>
   );
 }
