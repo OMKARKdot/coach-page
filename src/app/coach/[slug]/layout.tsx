@@ -69,6 +69,19 @@ function generateJsonLd(profile: any, slug: string) {
   };
 }
 
+const fallbackProfile = {
+  institute_name: "Bright Star Academy",
+  institute_type: "NEET/JEE",
+  tagline: "Aurangabad's Most Trusted NEET/JEE Coaching Since 2012",
+  logo_url: "https://via.placeholder.com/200x200?text=BSA+Logo",
+  banner_image_url: "https://images.unsplash.com/photo-1523050853063-bd80e295ce7f?auto=format&fit=crop&q=80",
+  address: "N-6 CIDCO, Chh. Sambhaji Nagar",
+  phone: "+91 240 234 0000",
+  email: "info@brightstaracademy.in",
+  established_year: 2012,
+  total_students_trained: 2400,
+};
+
 export default async function PublicLayout({
   children,
   params,
@@ -76,30 +89,22 @@ export default async function PublicLayout({
   children: React.ReactNode;
   params: { slug: string };
 }) {
-  const tenant = await getCoachTenantBySlug(params.slug);
-  
-  let profile: any;
-  
-  if (params.slug === "demo-institute") {
-    profile = {
-      institute_name: "Bright Star Academy",
-      institute_type: "NEET/JEE",
-      tagline: "Aurangabad's Most Trusted NEET/JEE Coaching Since 2012",
-      logo_url: "https://via.placeholder.com/200x200?text=BSA+Logo",
-      banner_image_url: "https://images.unsplash.com/photo-1523050853063-bd80e295ce7f?auto=format&fit=crop&q=80",
-      address: "N-6 CIDCO, Chh. Sambhaji Nagar",
-      phone: "+91 240 234 0000",
-      email: "info@brightstaracademy.in",
-      established_year: 2012,
-      total_students_trained: 2400,
-    };
-  } else if (tenant) {
-    profile = await getTenantProfile(tenant.id);
-  } else {
-    notFound();
+  let profile: any = fallbackProfile;
+
+  try {
+    const tenant = params?.slug ? await getCoachTenantBySlug(params.slug) : null;
+    if (params?.slug === "demo-institute") {
+      profile = fallbackProfile;
+    } else if (tenant) {
+      profile = await getTenantProfile(tenant.id);
+    } else {
+      notFound();
+    }
+  } catch {
+    profile = fallbackProfile;
   }
 
-  const jsonLd = generateJsonLd(profile, params.slug);
+  const jsonLd = generateJsonLd(profile, params?.slug || "");
 
   return (
     <div className="min-h-screen bg-white">
@@ -108,7 +113,7 @@ export default async function PublicLayout({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Navbar profile={profile} slug={params.slug} />
+      <Navbar profile={profile} slug={params?.slug || ""} />
       <main>{children}</main>
       <Footer profile={profile} />
     </div>

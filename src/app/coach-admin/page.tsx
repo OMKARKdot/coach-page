@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { LogIn, UserPlus } from 'lucide-react';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -42,48 +44,61 @@ export default function LoginPage() {
             CoachPage Admin
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Manage your coaching institute with ease
+            Sign in to manage your coaching institute
           </p>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleLogin}>
+
+        <form className="space-y-5" onSubmit={handleLogin}>
           {error && (
             <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm font-medium">
               {error}
             </div>
           )}
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <input
-                type="email"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div>
-              <input
-                type="password"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
+          <div>
+            <label className="block text-sm font-bold text-gray-700 mb-1">Email</label>
+            <input
+              type="email"
+              required
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
+              placeholder="admin@yourinstitute.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-bold text-gray-700 mb-1">Password</label>
+            <input
+              type="password"
+              required
+              className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-sm"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </div>
 
-          <div>
-            <button
-              disabled={loading}
-              type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-blue-400"
-            >
-              {loading ? 'Logging in...' : 'Sign in'}
-            </button>
-          </div>
+          <button
+            disabled={loading}
+            type="submit"
+            className="group relative w-full flex items-center justify-center gap-2 py-2.5 px-4 text-sm font-bold rounded-xl text-white bg-blue-600 hover:bg-blue-700 focus:outline-none disabled:bg-blue-400 transition-colors"
+          >
+            <LogIn className="w-4 h-4" />
+            {loading ? 'Signing in...' : 'Sign in'}
+          </button>
         </form>
+
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-200" /></div>
+          <div className="relative flex justify-center text-xs"><span className="bg-white px-3 text-gray-400">New here?</span></div>
+        </div>
+
+        <Link
+          href="/coach-admin/register"
+          className="flex items-center justify-center gap-2 w-full py-2.5 border-2 border-blue-600 text-blue-600 rounded-xl font-bold text-sm hover:bg-blue-50 transition-colors"
+        >
+          <UserPlus className="w-4 h-4" />
+          Register Your Institute
+        </Link>
       </div>
     </div>
   );

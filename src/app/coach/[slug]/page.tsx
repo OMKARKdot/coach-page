@@ -5,7 +5,6 @@ import {
   getTenantYoutubeVideos
 } from "@/lib/coachpage-firestore";
 import HeroSection from "@/components/coach-public/HeroSection";
-import NoticesTicker from "@/components/coach-public/NoticesTicker";
 import BatchesSection from "@/components/coach-public/BatchesSection";
 import ResultsSection from "@/components/coach-public/ResultsSection";
 import FacultySection from "@/components/coach-public/FacultySection";
@@ -16,6 +15,7 @@ import YouTubeSection from "@/components/coach-public/YouTubeSection";
 import GallerySection from "@/components/coach-public/GallerySection";
 import EnquiryForm from "@/components/coach-public/EnquiryForm";
 import ContactSection from "@/components/coach-public/ContactSection";
+import HamburgerNav from "@/components/coach-public/HamburgerNav";
 import { notFound } from "next/navigation";
 
 // ISR: Revalidate pages every 1 hour (admission season traffic optimization)
@@ -59,6 +59,17 @@ const demoBatches = [
   }
 ];
 
+const tabs = [
+  { label: "Home", slug: "" },
+  { label: "Batches", slug: "batches" },
+  { label: "Results", slug: "results" },
+  { label: "Faculty", slug: "faculty" },
+  { label: "Fees", slug: "fees" },
+  { label: "Testimonials", slug: "testimonials" },
+  { label: "Gallery", slug: "gallery" },
+  { label: "Contact", slug: "contact" },
+];
+
 export default async function PublicPage({ params }: { params: { slug: string } }) {
   let tenant = await getCoachTenantBySlug(params.slug);
   
@@ -85,7 +96,7 @@ export default async function PublicPage({ params }: { params: { slug: string } 
 
     return (
       <>
-        <NoticesTicker notices={notices} />
+        <HamburgerNav tabs={tabs} slug={params.slug} />
         <HeroSection profile={profile} />
         <AboutSection profile={profile} />
         <BatchesSection batches={batches} />
@@ -129,7 +140,6 @@ export default async function PublicPage({ params }: { params: { slug: string } 
 
   return (
     <>
-      <NoticesTicker notices={notices} />
       <HeroSection profile={profile} />
       <AboutSection profile={profile} />
       <BatchesSection batches={batches} />
