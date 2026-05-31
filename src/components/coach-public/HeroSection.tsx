@@ -53,12 +53,12 @@ export default function HeroSection({ profile }: { profile: any }) {
     <section className="relative min-h-screen flex items-center overflow-hidden">
       <div className="absolute inset-0 z-0">
         <img
-          src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=1920&q=100"
+          src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=1920&q=100"
           alt=""
           className="absolute inset-0 w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-black/30" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/50" />
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/60" />
       </div>
 
       <Star size="4px" top="15%" left="10%" delay="0s" duration="3s" />
@@ -89,6 +89,13 @@ export default function HeroSection({ profile }: { profile: any }) {
           <div className="relative inline-block">
             <div className="absolute -inset-2 bg-gradient-to-r from-yellow-500/20 via-white/30 to-yellow-500/20 rounded-3xl blur-3xl" />
             <div className="absolute -inset-1 bg-gradient-to-r from-yellow-400/10 via-white/20 to-yellow-400/10 rounded-2xl blur-2xl animate-pulse" style={{ animationDuration: "4s" }} />
+            <div className="absolute inset-0 flex items-center justify-center opacity-15 pointer-events-none">
+              <img
+                src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=500&q=80"
+                alt=""
+                className="w-72 h-72 object-cover rounded-full"
+              />
+            </div>
             <h1 className="relative font-heading text-6xl md:text-7xl lg:text-8xl font-black mb-6 leading-[0.95] tracking-tight animate-slide-up text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 via-white to-yellow-200">
               {profile?.institute_name}
             </h1>

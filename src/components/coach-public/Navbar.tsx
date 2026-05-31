@@ -37,7 +37,7 @@ export default function Navbar({ profile }: { profile: any; slug: string }) {
         <div className="flex justify-between h-20 items-center">
           <div className="flex items-center gap-3 shrink-0">
             {profile?.logo_url && (
-              <div className="relative w-11 h-11 rounded-xl overflow-hidden shadow-lg ring-2 ring-white/30">
+              <div className="relative w-11 h-11 rounded-full overflow-hidden shadow-lg ring-2 ring-white/30">
                 <img src={profile.logo_url} alt={profile.institute_name} className="w-full h-full object-cover" />
               </div>
             )}
@@ -102,7 +102,22 @@ export default function Navbar({ profile }: { profile: any; slug: string }) {
 
       {mobileOpen && (
         <div className="lg:hidden premium-glass border-t border-slate-200/60 shadow-xl animate-fade-in">
-          <div className="px-4 py-4 space-y-2">
+          <div className="px-4 py-4">
+            <div className="grid grid-cols-3 gap-2 mb-3">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => { setActiveTab(tab.id); setMobileOpen(false); }}
+                  className={`px-2 py-2.5 rounded-xl text-xs font-semibold transition-all duration-300 text-center ${
+                    activeTab === tab.id
+                      ? "bg-indigo-50 text-indigo-600 shadow-sm"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
             <a
               href="#enquire"
               onClick={() => setMobileOpen(false)}

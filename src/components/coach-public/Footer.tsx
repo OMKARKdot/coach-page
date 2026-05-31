@@ -11,7 +11,7 @@
             <div className="lg:col-span-2">
               <div className="flex items-center gap-4 mb-6">
                 {profile?.logo_url && (
-                  <div className="w-12 h-12 rounded-xl overflow-hidden ring-2 ring-white/20 shadow-lg">
+                  <div className="w-12 h-12 rounded-full overflow-hidden ring-2 ring-white/20 shadow-lg">
                     <img src={profile.logo_url} alt={profile.institute_name} className="w-full h-full object-cover" />
                   </div>
                 )}

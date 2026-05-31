@@ -25,7 +25,7 @@ export const revalidate = 3600;
 const demoProfile = {
   institute_name: "Bright Star Academy",
   tagline: "Aurangabad's Most Trusted NEET/JEE Coaching Since 2012",
-  logo_url: "https://via.placeholder.com/200x200?text=BSA+Logo",
+  logo_url: "/3256114.png",
   banner_image_url: "https://images.unsplash.com/photo-1523050853063-bd80e295ce7f?auto=format&fit=crop&q=80",
   institute_type: "NEET/JEE",
   established_year: 2012,
